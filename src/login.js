@@ -17,11 +17,11 @@ export default function Login() {
         <LoginDiv>
             <img src={logo} alt="TrackIt logo"/>
             <InputForm onSubmit={submitLogin}>
-                <input type="email" placeholder="email" onChange={(e) => setEmail(e.target.value)}/>
-                <input type="password" placeholder="senha" onChange={(e) => setPassword(e.target.value)}/>
+                <input type="email" placeholder="email" onChange={(e) => setEmail(e.target.value)} disabled={loading} required/>
+                <input type="password" placeholder="senha" onChange={(e) => setPassword(e.target.value)} disabled={loading} required/>
                 <button type="submit">{loading ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={48} width={303}/> : <p>Entrar</p>}</button>
             </InputForm>
-            <Link to="/"><h1>Não tem uma conta? Cadastre-se!</h1></Link>
+            <Link to="/signUp"><h1>Não tem uma conta? Cadastre-se!</h1></Link>
         </LoginDiv>
     )
 }
@@ -37,6 +37,7 @@ const LoginDiv = styled.div`
 
     h1 {
         margin-top: 25px;
+        font-size: 14px;
     }
 `
 
