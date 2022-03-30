@@ -11,8 +11,8 @@ export default function SignUp() {
     const [userData, setUserData] = useState({
         name: '',
         email: '',
+        image: '',
         password: '',
-        profileUrl: '',
     });
 
     function registerUser(event) {
@@ -24,13 +24,11 @@ export default function SignUp() {
             }).catch((error) => {
                 console.log(error);
                 setUserData({
-                    name: '',
                     email: '',
                     password: '',
-                    profileUrl: '',
                 });
                 setLoading(false);
-                alert('Erro ao cadastrar usuário');
+                alert('Erro ao logar usuário');
             });
             setLoading(true);
         }
@@ -42,8 +40,8 @@ export default function SignUp() {
                 <input type="text" placeholder="nome" onChange={(e) => setUserData({...userData, name: e.target.value})} required disabled={loading}/>
                 <input type="email" placeholder="email" onChange={(e) => setUserData({...userData, email: e.target.value})} required disabled={loading}/>
                 <input type="password" placeholder="senha" onChange={(e) => setUserData({...userData, password: e.target.value})} required disabled={loading}/>
-                <input type="text" placeholder="foto" onChange={(e) => setUserData({...userData, profileUrl: e.target.value})} required disabled={loading}/>
-                <button type="submit">{loading ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={48} width={303}/> : <p>Cadastrar</p>}</button>
+                <input type="text" placeholder="foto" onChange={(e) => setUserData({...userData, image: e.target.value})} required disabled={loading}/>
+                <button type="submit">{loading ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={50} width={80}/> : <p>Cadastrar</p>}</button>
             </InputForm>
             <Link to="/"><h1>Já tem uma conta? Faça login!</h1></Link>
         </LoginDiv>
@@ -89,6 +87,9 @@ const InputForm = styled.form`
         background-color: #52B6FF;
         border-radius: 5px;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: #FFFFFF;
     }
 
