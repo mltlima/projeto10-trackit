@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useContext } from "react";
+import Header from "./header";
 import UserContext from "./userContext";
 
 export default function Today() {
@@ -9,8 +10,11 @@ export default function Today() {
     const {user, setUser} = useContext(UserContext)
     console.log(user.token);
     return (
-        <div>
-            <h1>{date.format("dddd, DD/MM")}</h1>
-        </div>
+        <>
+            <Header/>
+            <div>
+                <h1>{date.format("dddd, DD/MM")}</h1>
+            </div>
+        </>
     )
 }
