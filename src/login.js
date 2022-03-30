@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
 import { useState } from "react";
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 import logo from './assets/logo.svg';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     function submitLogin() {
         
