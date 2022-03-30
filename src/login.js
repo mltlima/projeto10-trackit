@@ -5,6 +5,11 @@ import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import logo from './assets/logo.svg';
 
+export {
+    LoginDiv,
+    InputForm
+}
+
 export default function Login() {
     const [userData, setUserData] = useState({
         email: '',
