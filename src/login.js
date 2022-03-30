@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import UserContext from "./userContext";
 import logo from './assets/logo.svg';
 
 export {
@@ -16,14 +17,16 @@ export default function Login() {
         password: '',
     });
     const [loading, setLoading] = useState(false);
+    const {user, setUser} = useContext(UserContext)
     const navigate = useNavigate();
 
     function submitLogin(event) {
         event.preventDefault();
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", (userData));            
-            promise.then(() => {
-                navigate('/');
+            promise.then((answer) => {
+                setUser({...answer.data});
+                navigate('/today');
             }).catch((error) => {
                 console.log(error);
                 setUserData({
@@ -33,7 +36,7 @@ export default function Login() {
                     password: '',
                 });
                 setLoading(false);
-                alert('Erro ao cadastrar usuário');
+                alert('Erro ao logar usuário');
             });
             setLoading(true);
         }

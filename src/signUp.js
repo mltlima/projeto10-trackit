@@ -29,7 +29,7 @@ export default function SignUp() {
                     password: '',
                 });
                 setLoading(false);
-                alert('Erro ao logar usuário');
+                alert('Erro ao cadastrar usuário');
             });
             setLoading(true);
         }
