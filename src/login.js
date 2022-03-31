@@ -24,8 +24,8 @@ export default function Login() {
         event.preventDefault();
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", (userData));            
-            promise.then((answer) => {
-                setUser({...answer.data});
+            promise.then((response) => {
+                setUser({...response.data});
                 navigate('/today');
             }).catch((error) => {
                 console.log(error);

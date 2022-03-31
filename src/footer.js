@@ -12,7 +12,7 @@ export default function Footer() {
         <FooterStyle>
             <Link to="/">Hábitos</Link>
             <Link to="/">
-                <CircularProgressbarWithChildren value={22} text={"Hoje"} styles={buildStyles({
+                <CircularProgressbarWithChildren value={user?.percentage > 0 ? user?.percentage : 0} text={"Hoje"} styles={buildStyles({
                     backgroundColor: "#3e98c7",
                     textColor: "#fff",
                     pathColor: "#fff",
