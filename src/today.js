@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 import { useContext } from "react";
-import Header from "./header";
 import UserContext from "./userContext";
+import styled from "styled-components";
+import Header from "./header";
+import Footer from "./footer";
 
 export default function Today() {
     require("dayjs/locale/pt-br");
@@ -12,9 +14,14 @@ export default function Today() {
     return (
         <>
             <Header/>
-            <div>
+            <Test>
                 <h1>{date.format("dddd, DD/MM")}</h1>
-            </div>
+            </Test>
+            <Footer/>
         </>
     )
 }
+
+const Test = styled.div`
+    margin-top: 100px;
+`
