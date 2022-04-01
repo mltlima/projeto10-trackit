@@ -20,14 +20,14 @@ export default function Today() {
             }
         });
         promise.then((response) => {
-            setUser({...user, habits: response.data});
+            setUser({...user, todayHabits: response.data});
             percentageCalculation();
 
         }).catch((error) => console.log(error))
     }, []);
 
     function percentageCalculation() {
-        const habitsDone = user.habits?.filter((habit) => {
+        const habitsDone = user.todayHabits?.filter((habit) => {
             return habit.done === true;
         });
         const percentage = (habitsDone.length / user.habits?.length) * 100;
