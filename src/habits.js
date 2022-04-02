@@ -91,6 +91,7 @@ function CreateNewHabit(props) {
 
     function submitHabit() {
         console.log("submitHabit");
+        setCreateHabit(false);
         setValue(() => "");
         const habitToSubmit = {
             name: newHabit?.name,
@@ -127,6 +128,29 @@ function CreateNewHabit(props) {
     )
 }
 
+function DeleteHabit(props) {
+    const {id} = props;
+    const {user, setUser} = useContext(UserContext);
+    console.log("cheguei no delete")
+    if (window.confirm("Deseja deletar este hábito?")) {
+        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, 
+        {
+            headers: {
+                Authorization: `Bearer ${user?.token}`
+            }
+        });
+        promise.then(() => {
+            console.log("deletado");
+        }).catch((error) => console.log(error))
+
+    }
+    return (
+        <>
+        </>
+    ) 
+    
+}
+
 function DayBox(props) {
     const {newHabit, setNewHabit, day} = props;
     const [selected, setSelected] = useState(false);
@@ -150,16 +174,26 @@ function DayBox(props) {
 function ShowHabits(props) {
     const {habit} = props;
     const {user, setUser} = useContext(UserContext);
+    const [del, SetDel] = useState(false);
+
+    function HabitToReturn(){
+        return (
+            <HabitsBox>
+                <div>{habit.name}</div>
+                <ion-icon onClick={() => SetDel(true)} className="trash" name="trash-outline"></ion-icon>
+                <ul>  
+                    {weekDays.map((day) => 
+                        <li className={habit.days?.includes(day.id) ? "selected" : null} key={day.id}>{day.day}</li>
+                    )}
+                </ul> 
+            </HabitsBox> 
+        )
+    }
+
     return (
-                
-        <HabitsBox>
-            <div>{habit.name}</div>
-            <ul>  
-                {weekDays.map((day) => 
-                    <li className={habit.days?.includes(day.id) ? "selected" : null} key={day.id}>{day.day}</li>
-                )}
-            </ul> 
-        </HabitsBox>
+        <>
+            {del ? <DeleteHabit id={habit.id}/> : <HabitToReturn/>}
+        </>         
     )
 }
 
@@ -223,6 +257,7 @@ const HabitsBox = styled.div`
     width: 100%;
     margin-top: 28px;
     padding: 18px;
+    position: relative;
     
     ul {
         display: flex;
@@ -262,6 +297,14 @@ const HabitsBox = styled.div`
 
     div {
         margin-bottom: 10px;
+        color: #666666;
+    }
+
+    ion-icon {
+        position: absolute;
+        font-size: 20px;
+        right: 10px;
+        top: 10px;
         color: #666666;
     }
 `
