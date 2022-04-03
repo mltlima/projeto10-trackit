@@ -1,16 +1,23 @@
 import dayjs from "dayjs";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "./userContext";
 import styled from "styled-components";
 import axios from "axios";
 import Header from "./header";
 import Footer from "./footer";
+import { HabitsDiv, MyHabits, HabitsBox } from "./habits";
 
 export default function Today() {
     require("dayjs/locale/pt-br");
     dayjs.locale("pt-br");
-    const date = dayjs();
-    const {user, setUser} = useContext(UserContext)
+    let date = dayjs();
+    date.format("dddd, DD/MM");
+    date = date.format("dddd, DD/MM").charAt(0).toUpperCase() + date.format("dddd, DD/MM").slice(1);
+    const {user, setUser} = useContext(UserContext);
+    const [todayHabits, setTodayHabits] = useState([]);
+    const [percentage, setPercentage] = useState(0);
+    const [completedCounter, setCompletedCounter] = useState(0);
+    const [totalHabits, setTotalHabits] = useState(0);
 
     useEffect(() => {
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", 
@@ -21,32 +28,91 @@ export default function Today() {
         });
         promise.then((response) => {
             setUser({...user, todayHabits: response.data});
-            percentageCalculation();
-
+            setTodayHabits(...todayHabits, response.data);
+            setTotalHabits(response.data.length);
+            let habitsDone = 0;
+            response.data.map((habit) => {
+                if (habit.done) habitsDone++;
+            });
+            setCompletedCounter(habitsDone);
         }).catch((error) => console.log(error))
     }, []);
-
+    
     function percentageCalculation() {
-        const habitsDone = user.todayHabits?.filter((habit) => {
-            return habit.done === true;
-        });
-        const percentage = (habitsDone.length / user.habits?.length) * 100;
-        console.log(percentage)
-        setUser({...user, percentage: percentage});
-    }
+            const percentageCalculate = (completedCounter / totalHabits) * 100;
+            setPercentage(Math.round(percentageCalculate));
+    } 
+
+    useEffect(() => {
+        percentageCalculation();
+    }, [completedCounter]);
 
     return (
         <>
             <Header/>
-                <Test>
-                    <h1>{date.format("dddd, DD/MM")}</h1>
-                    {user.habits?.length < 1 ? <p>"Nenhum hábito concluído ainda"</p> : <p>{user?.percentage}</p>}
-                </Test>
+                <HabitsDiv>
+                    <MyHabits>
+                        <h1>{date}</h1>
+                        {todayHabits.length < 1 ? <p>"Nenhum hábito concluído ainda"</p> : <p>{percentage}% dos hábitos concluídos</p>}
+                    </MyHabits>
+                    <MyHabits>
+                        {todayHabits.map((habit) => <ShowTodayHabits habit={habit} completedCounter={completedCounter} 
+                        setCompletedCounter={setCompletedCounter}/>)}
+                    </MyHabits>
+                </HabitsDiv>
             <Footer/>
         </>
     )
 }
 
-const Test = styled.div`
-    margin-top: 100px;
+function ShowTodayHabits(props) {
+    const {habit, completedCounter, setCompletedCounter} = props;
+    const {user, setUser} = useContext(UserContext);
+    const [selected, setSelected] = useState(false);
+
+    function sendHabitDone() {
+        console.log("sendHabitDone");
+
+        const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`,{ }, 
+        {
+            headers: {
+                Authorization: `Bearer ${user?.token}`
+            }
+        });
+        promise.then(() => {   
+            setSelected(true);
+            setCompletedCounter(completedCounter + 1);
+        }).catch((error) => console.log(error))
+    }
+
+    function removeHabitDone() {
+
+
+    }
+
+    
+
+    return (
+        <HabitsBox>
+            <h4>{habit.name}</h4>
+            <p>Sequência atual: {habit.currentSequence} dias</p>
+            <p>Seu recorde: {habit.highestSequence} dias</p>
+            {habit.done || selected ? <Selected><ion-icon onClick={sendHabitDone}  name="checkbox"></ion-icon></Selected> : 
+            <Check><ion-icon onClick={sendHabitDone}  name="checkbox"></ion-icon></Check>}
+        </HabitsBox>
+    )
+}
+
+const Selected = styled.div`
+    ion-icon {
+        font-size: 80px;
+        color: #8FC549;
+    }
+`
+
+const Check = styled.div`
+    ion-icon {
+        font-size: 80px;
+        color: #EBEBEB;
+    }
 `

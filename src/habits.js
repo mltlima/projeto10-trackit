@@ -37,6 +37,12 @@ const weekDays = [
     }
   ];
 
+export {
+    HabitsDiv, 
+    MyHabits,
+    HabitsBox
+}
+
 export default function Habits() {
     const [createHabit, setCreateHabit] = useState(false);
     const [habits, setHabits] = useState([]);
@@ -305,6 +311,16 @@ const HabitsBox = styled.div`
         font-size: 20px;
         right: 10px;
         top: 10px;
+        color: #666666;
+    }
+
+    h4 {
+        color: #666666;
+        margin-bottom: 7px;
+    }
+
+    p {
+        font-size: 13px;
         color: #666666;
     }
 `
