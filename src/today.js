@@ -41,6 +41,7 @@ export default function Today() {
     function percentageCalculation() {
             const percentageCalculate = (completedCounter / totalHabits) * 100;
             setPercentage(Math.round(percentageCalculate));
+            setUser({...user, updatedPercentage: Math.round(percentageCalculate)});
     } 
 
     useEffect(() => {
@@ -72,7 +73,6 @@ function ShowTodayHabits(props) {
 
     function sendHabitDone() {
         console.log("sendHabitDone");
-
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`,{ }, 
         {
             headers: {
@@ -86,18 +86,28 @@ function ShowTodayHabits(props) {
     }
 
     function removeHabitDone() {
-
-
+        console.log("removeHabitDone");
+        const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`,{ }, 
+        {
+            headers: {
+                Authorization: `Bearer ${user?.token}`
+            }
+        });
+        promise.then(() => {   
+            setSelected(false);
+            habit.done = false;
+            setCompletedCounter(completedCounter - 1);
+        }).catch((error) => console.log(error))
     }
 
-    
+
 
     return (
         <HabitsBox>
             <h4>{habit.name}</h4>
             <p>Sequência atual: {habit.currentSequence} dias</p>
             <p>Seu recorde: {habit.highestSequence} dias</p>
-            {habit.done || selected ? <Selected><ion-icon onClick={sendHabitDone}  name="checkbox"></ion-icon></Selected> : 
+            {habit.done || selected ? <Selected><ion-icon onClick={removeHabitDone}  name="checkbox"></ion-icon></Selected> : 
             <Check><ion-icon onClick={sendHabitDone}  name="checkbox"></ion-icon></Check>}
         </HabitsBox>
     )

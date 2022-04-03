@@ -7,12 +7,12 @@ import "react-circular-progressbar/dist/styles.css";
 
 export default function Footer() {
     const {user, setUser} = useContext(UserContext);
-    
+    console.log(user?.updatedPercentage);
     return (
         <FooterStyle>
             <Link to="/habits">Hábitos</Link>
             <Link to="/today">
-                <CircularProgressbarWithChildren value={user?.percentage > 0 ? user?.percentage : 0} text={"Hoje"} styles={buildStyles({
+                <CircularProgressbarWithChildren value={user?.updatedPercentage > 0 ? user?.updatedPercentage : 0} text={"Hoje"} styles={buildStyles({
                     backgroundColor: "#3e98c7",
                     textColor: "#fff",
                     pathColor: "#fff",
