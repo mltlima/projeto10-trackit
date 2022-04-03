@@ -72,7 +72,7 @@ function ShowTodayHabits(props) {
     const [selected, setSelected] = useState(false);
 
     function sendHabitDone() {
-        console.log("sendHabitDone");
+       
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`,{ }, 
         {
             headers: {
@@ -87,7 +87,7 @@ function ShowTodayHabits(props) {
     }
 
     function removeHabitDone() {
-        console.log("removeHabitDone");
+        
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`,{ }, 
         {
             headers: {

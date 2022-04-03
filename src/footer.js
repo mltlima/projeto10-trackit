@@ -7,7 +7,7 @@ import "react-circular-progressbar/dist/styles.css";
 
 export default function Footer() {
     const {user, setUser} = useContext(UserContext);
-    console.log(user?.updatedPercentage);
+
     return (
         <FooterStyle>
             <Link to="/habits">Hábitos</Link>
@@ -19,7 +19,7 @@ export default function Footer() {
                     trailColor: "transparent"
                   })}/>
             </Link>
-            <Link to="/">Histórico</Link>
+            <Link to="/history">Histórico</Link>
         </FooterStyle>
     )
 }

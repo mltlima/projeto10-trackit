@@ -124,11 +124,11 @@ function CreateNewHabit(props) {
             <input type={"text"}  value={value} placeholder={"nome do hábito"} disabled={loading} required 
             onChange={(e) => setNewHabit({...newHabit, name: e.target.value})}/>
             <ul>
-                {weekDays.map((day) => <DayBox day={day} newHabit={newHabit} setNewHabit={setNewHabit}></DayBox>)}    
+                {weekDays.map((day) => <DayBox day={day} newHabit={newHabit} setNewHabit={setNewHabit} loading={loading}></DayBox>)}    
             </ul>
             <Buttons>
                 <button className="cancel" onClick={() => setCreateHabit(false)}>Cancelar</button>
-                <button onClick={() => submitHabit()}>{loading ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={10} width={5}/> : <p>Salvar</p>}</button>
+                <button disabled={loading} onClick={() => submitHabit()}>{loading ? <ThreeDots type="ThreeDots" color="#FFFFFF" height={10} width={5}/> : <p>Salvar</p>}</button>
             </Buttons>         
         </HabitsBox>
     )
@@ -158,7 +158,7 @@ function DeleteHabit(props) {
 }
 
 function DayBox(props) {
-    const {newHabit, setNewHabit, day} = props;
+    const {newHabit, setNewHabit, day, loading} = props;
     const [selected, setSelected] = useState(false);
     function selectDay() {
         if (selected) {
@@ -171,7 +171,7 @@ function DayBox(props) {
     }
 
     return(
-        <li className={selected ? "selected" : null} key={day.id} onClick={() => selectDay()}>
+        <li className={selected ? "selected" : null} key={day.id} disabled={loading} onClick={() => selectDay()}>
             {day.day}
         </li>
     )
