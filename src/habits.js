@@ -252,6 +252,10 @@ const MyHabits = styled.div`
         color: #52B6FF;
         font-size: 35px;
     }
+
+    .green-text, p span .green-text {
+        color: #8FC549;
+    }
 `
 
 const HabitsBox = styled.div`

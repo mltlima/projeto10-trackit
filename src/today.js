@@ -54,7 +54,7 @@ export default function Today() {
                 <HabitsDiv>
                     <MyHabits>
                         <h1>{date}</h1>
-                        {todayHabits.length < 1 ? <p>"Nenhum hábito concluído ainda"</p> : <p>{percentage}% dos hábitos concluídos</p>}
+                        {todayHabits.length < 1 ? <p>"Nenhum hábito concluído ainda"</p> : <p className="green-text">{percentage}% dos hábitos concluídos</p>}
                     </MyHabits>
                     <MyHabits>
                         {todayHabits.map((habit) => <ShowTodayHabits habit={habit} completedCounter={completedCounter} 
@@ -82,6 +82,7 @@ function ShowTodayHabits(props) {
         promise.then(() => {   
             setSelected(true);
             setCompletedCounter(completedCounter + 1);
+            habit.currentSequence++;
         }).catch((error) => console.log(error))
     }
 
@@ -97,6 +98,7 @@ function ShowTodayHabits(props) {
             setSelected(false);
             habit.done = false;
             setCompletedCounter(completedCounter - 1);
+            habit.currentSequence--;
         }).catch((error) => console.log(error))
     }
 
@@ -105,8 +107,8 @@ function ShowTodayHabits(props) {
     return (
         <HabitsBox>
             <h4>{habit.name}</h4>
-            <p>Sequência atual: {habit.currentSequence} dias</p>
-            <p>Seu recorde: {habit.highestSequence} dias</p>
+            <p>Sequência atual: <span className={selected ? "green-text": null}>{habit.currentSequence} dias</span></p>
+            <p>Seu recorde: <span className={habit.currentSequence === habit.highestSequence ? "green-text": null}>{habit.highestSequence} dias</span></p>
             {habit.done || selected ? <Selected><ion-icon onClick={removeHabitDone}  name="checkbox"></ion-icon></Selected> : 
             <Check><ion-icon onClick={sendHabitDone}  name="checkbox"></ion-icon></Check>}
         </HabitsBox>
