@@ -27,7 +27,6 @@ export default function Today() {
             }
         });
         promise.then((response) => {
-            //setUser({...user, todayHabits: response.data});
             setTodayHabits(...todayHabits, response.data);
             setTotalHabits(response.data.length);
             let habitsDone = 0;
@@ -54,7 +53,8 @@ export default function Today() {
                 <HabitsDiv>
                     <MyHabits>
                         <h1>{date}</h1>
-                        {todayHabits.length < 1 ? <p>"Nenhum hábito concluído ainda"</p> : <p className="green-text">{percentage}% dos hábitos concluídos</p>}
+                        {Number.isNaN(percentage) || percentage == 0 ? <p>"Nenhum hábito concluído ainda"</p> : 
+                        <p className="green-text">{percentage}% dos hábitos concluídos</p>}
                     </MyHabits>
                     <MyHabits>
                         {todayHabits.map((habit) => <ShowTodayHabits habit={habit} completedCounter={completedCounter} 
@@ -71,8 +71,9 @@ function ShowTodayHabits(props) {
     const {user, setUser} = useContext(UserContext);
     const [selected, setSelected] = useState(false);
 
+
+    //Post habit as done on server
     function sendHabitDone() {
-       
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`,{ }, 
         {
             headers: {
@@ -86,8 +87,8 @@ function ShowTodayHabits(props) {
         }).catch((error) => console.log(error))
     }
 
+    //Post remove habit on server
     function removeHabitDone() {
-        
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`,{ }, 
         {
             headers: {

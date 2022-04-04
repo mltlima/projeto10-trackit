@@ -6,6 +6,7 @@ import axios from 'axios';
 import UserContext from "./userContext";
 import logo from './assets/logo.svg';
 
+
 export {
     LoginDiv,
     InputForm
@@ -21,10 +22,9 @@ export default function Login() {
     const navigate = useNavigate();
 
 
+    //Recover token in localStorage
     useEffect(() => {
-        //Recover token in localStorage
         if (window.localStorage.getItem("token") !== null) {
-            //setUser({...user, image: window.localStorage.getItem("image")});
             setUser({...user, token: window.localStorage.getItem("token")});
             navigate('/today');
         }
@@ -37,6 +37,7 @@ export default function Login() {
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", (userData));            
             promise.then((response) => {
+                //Save token in localStorage
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("image", response.data.image);
                 setUser({...user, token: response.data.token});

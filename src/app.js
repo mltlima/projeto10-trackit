@@ -9,7 +9,7 @@ import History from './history'
 
 export default function App() {
     const [user, setUser] = useState({});
-
+    //Information is passed to other components through the context
     return(
         <UserContext.Provider value={{user, setUser}}>
             <BrowserRouter>  

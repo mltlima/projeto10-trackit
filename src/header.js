@@ -5,8 +5,8 @@ import UserContext from "./userContext";
 export default function Header() {
     const {user, setUser} = useContext(UserContext)
 
+    //Recover image in localStorage
     useEffect(() => {
-        //Recover image in localStorage
         if (window.localStorage.getItem("image") !== null) {
             setUser({...user, image: window.localStorage.getItem("image")});
         }

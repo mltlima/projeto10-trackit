@@ -44,8 +44,8 @@ export {
 }
 
 export default function Habits() {
-    const [createHabit, setCreateHabit] = useState(false);
-    const [habits, setHabits] = useState([]);
+    const [createHabit, setCreateHabit] = useState(false); //Show or not the create habit box
+    const [habits, setHabits] = useState([]); //Save habits in state
     const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
@@ -56,7 +56,6 @@ export default function Habits() {
             }
         });
         promise.then((response) => {
-            //setUser({...user, habits: response.data});
             setHabits(...habits, response.data);
         }).catch((error) => console.log(error))
     }, []);
@@ -96,14 +95,11 @@ function CreateNewHabit(props) {
     });
 
     function submitHabit() {
-        console.log("submitHabit");
-        setCreateHabit(false);
         setValue(() => "");
         const habitToSubmit = {
             name: newHabit?.name,
             days: newHabit?.days,
-        }
-
+        };
         setHabits([...habits, habitToSubmit]);
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", 
@@ -113,9 +109,13 @@ function CreateNewHabit(props) {
                 Authorization: `Bearer ${user?.token}`
             }
         });
-        promise.then((response) => {
-            //setUser({...user, habits: response.data});
-        }).catch((error) => console.log(error))
+        promise.then(() => {
+            setCreateHabit(false);
+        }).catch((error) => {
+            console.log(error)
+            setLoading(false);
+        });
+        setLoading(true);
     }
     
 
@@ -137,7 +137,7 @@ function CreateNewHabit(props) {
 function DeleteHabit(props) {
     const {id} = props;
     const {user, setUser} = useContext(UserContext);
-    console.log("cheguei no delete")
+    
     if (window.confirm("Deseja deletar este hábito?")) {
         const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, 
         {
@@ -146,7 +146,7 @@ function DeleteHabit(props) {
             }
         });
         promise.then(() => {
-            console.log("deletado");
+            
         }).catch((error) => console.log(error))
 
     }

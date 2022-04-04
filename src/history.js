@@ -26,10 +26,10 @@ export default function History() {
         });
         promise.then((response) => {
             setHistory(...history, response.data);
-            //markDay();
         }).catch((error) => console.log(error))
     }, []);
 
+    //Updates every time changes are made to history state
     useEffect(() => {
         history?.map(day => {
             let completedDay = true;
@@ -37,29 +37,14 @@ export default function History() {
                 if (!element.done) {completedDay = false}
             });
             setDaysHistory( daysHistory => [...daysHistory, {completedDay: completedDay, day: day.day}]);
-        })
-    
+        }) 
     }, [history]);
-/*
-    useEffect(() => {
-        console.log(showHabitDate);
-        //setHistory([...history, {day: "01/01/1111"}]);
-        //setHistory(history.filter(item => item.day !== "01/01/1111"));
-        //setHistory([...history, history.day.filter(dayId => dayId !== "01/01/1111")]);
-    }, [showHabitDate]);
 
 
-    function ShowHabit() {
-        return(
-            <MyHabits>
-                {history?.map(day => day.day === showHabitDate ? day.habits.map(habit => <Habit habit={habit}></Habit>) : null)}
-            </MyHabits>
-        )
-    }
-*/  
+
     function Habit(props) {
         const {habit} = props;
-        //console.log(habit.done)
+
         return(
             <HabitsBox>
                 <h4>{habit.name}</h4>
