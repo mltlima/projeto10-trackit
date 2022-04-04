@@ -23,11 +23,11 @@ export default function Today() {
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", 
         {
             headers: {
-                Authorization: `Bearer ${user.token}`
+                Authorization: `Bearer ${user?.token}`
             }
         });
         promise.then((response) => {
-            setUser({...user, todayHabits: response.data});
+            //setUser({...user, todayHabits: response.data});
             setTodayHabits(...todayHabits, response.data);
             setTotalHabits(response.data.length);
             let habitsDone = 0;

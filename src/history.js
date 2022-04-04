@@ -21,7 +21,7 @@ export default function History() {
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily", 
         {
             headers: {
-                Authorization: `Bearer ${user.token}`
+                Authorization: `Bearer ${user?.token}`
             }
         });
         promise.then((response) => {
@@ -42,11 +42,12 @@ export default function History() {
     }, [history]);
 /*
     useEffect(() => {
-        setHistory([...history, {day: "01/01/1111"}]);
-        setHistory(history.filter(item => item.day !== "01/01/1111"));
+        console.log(showHabitDate);
+        //setHistory([...history, {day: "01/01/1111"}]);
+        //setHistory(history.filter(item => item.day !== "01/01/1111"));
         //setHistory([...history, history.day.filter(dayId => dayId !== "01/01/1111")]);
     }, [showHabitDate]);
-*/
+
 
     function ShowHabit() {
         return(
@@ -55,10 +56,10 @@ export default function History() {
             </MyHabits>
         )
     }
-    
+*/  
     function Habit(props) {
         const {habit} = props;
-        console.log(habit.done)
+        //console.log(habit.done)
         return(
             <HabitsBox>
                 <h4>{habit.name}</h4>
@@ -78,7 +79,7 @@ export default function History() {
                     return "incomplete-day"
                 }
             }} 
-            onClickDay={(date) => setShowHabitDate(dayjs(date.date).format("DD/MM/YYYY"))}/>
+            onClickDay={(value,event) => setShowHabitDate(dayjs(value).format("DD/MM/YYYY"))}/>
             <MyHabits>
                 {history.map(day => day.day === showHabitDate ? day.habits.map(habit => <Habit habit={habit}></Habit>) : null)}
             </MyHabits>

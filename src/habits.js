@@ -52,11 +52,11 @@ export default function Habits() {
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", 
         {
             headers: {
-                Authorization: `Bearer ${user.token}`
+                Authorization: `Bearer ${user?.token}`
             }
         });
         promise.then((response) => {
-            setUser({...user, habits: response.data});
+            //setUser({...user, habits: response.data});
             setHabits(...habits, response.data);
         }).catch((error) => console.log(error))
     }, []);
@@ -114,7 +114,7 @@ function CreateNewHabit(props) {
             }
         });
         promise.then((response) => {
-            setUser({...user, habits: response.data});
+            //setUser({...user, habits: response.data});
         }).catch((error) => console.log(error))
     }
     

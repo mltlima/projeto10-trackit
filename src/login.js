@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import UserContext from "./userContext";
@@ -20,13 +20,24 @@ export default function Login() {
     const {user, setUser} = useContext(UserContext)
     const navigate = useNavigate();
 
+
+    useEffect(() => {
+        //Recover token in localStorage
+        if (window.localStorage.getItem("token") !== null) {
+            setUser({...user, token: window.localStorage.getItem("token")});
+            navigate('/today');
+        }
+    },[])
+
+
+
     function submitLogin(event) {
         event.preventDefault();
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", (userData));            
             promise.then((response) => {
                 localStorage.setItem("token", response.data.token);
-                setUser({...response.data});
+                setUser({...user, token: response.data.token});
                 navigate('/today');
             }).catch((error) => {
                 console.log(error);
@@ -41,11 +52,8 @@ export default function Login() {
             });
             setLoading(true);
         }
-/*
-    function recoverTokenSaved() {
-        set
-    }
-  */      
+
+      
     return(
         <LoginDiv>
             <img src={logo} alt="TrackIt logo"/>
