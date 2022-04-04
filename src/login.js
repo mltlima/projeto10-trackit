@@ -25,6 +25,7 @@ export default function Login() {
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", (userData));            
             promise.then((response) => {
+                localStorage.setItem("token", response.data.token);
                 setUser({...response.data});
                 navigate('/today');
             }).catch((error) => {
@@ -40,7 +41,11 @@ export default function Login() {
             });
             setLoading(true);
         }
-        
+/*
+    function recoverTokenSaved() {
+        set
+    }
+  */      
     return(
         <LoginDiv>
             <img src={logo} alt="TrackIt logo"/>
