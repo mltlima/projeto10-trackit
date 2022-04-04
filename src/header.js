@@ -1,9 +1,16 @@
 import styled from "styled-components"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "./userContext";
 
 export default function Header() {
     const {user, setUser} = useContext(UserContext)
+
+    useEffect(() => {
+        //Recover image in localStorage
+        if (window.localStorage.getItem("image") !== null) {
+            setUser({...user, image: window.localStorage.getItem("image")});
+        }
+    },[])
 
     return (
         <HeaderStyle>
